@@ -1,0 +1,39 @@
+input_dir: "Source"
+output_dir: "Output/Build"
+
+conversions:
+  - input: Airplane.svg
+    output: airplane-white-38x38.png
+    background: none
+    level_colors: "white,"
+    resize: 38x38
+
+  - input: Apokee.svg
+    output: apokee-gray-460x460.png
+    background: none
+    level_colors: "#4d4d4d,"
+    resize: 460x460
+
+  - input: Apokee.svg
+    output: apokee-gray-32x32.png
+    background: none
+    level_colors: "#4d4d4d,"
+    resize: 32x32
+
+  - input: Connection.svg
+    output: connection-white-38x38.png
+    background: none
+    level_colors: "white,"
+    resize: 38x38
+
+  - input: Ketchup.svg
+    output: ketchup-white-38x38.png
+    background: none
+    level_colors: "white,"
+    resize: 38x38
+
+  - input: Rocket.svg
+    output: rocket-white-38x38.png
+    background: none
+    level_colors: "white,"
+    resize: 38x38

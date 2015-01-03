@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+    <metadata>
+        <id>Apokee.Artwork</id>
+        <version>$version$</version>
+        <title>Apokee Artwork</title>
+        <authors>Apokee Contributors</authors>
+        <description>Artwork for Apokee projects.</description>
+        <projectUrl>http://www.apokee.com/</projectUrl>
+        <iconUrl>http://static.apokee.com/artwork/logo-apokee-32x32-gray.png</iconUrl>
+        <licenseUrl>https://raw.githubusercontent.com/Apokee/Artwork/master/LICENSE.md</licenseUrl>
+    </metadata>
+    <files>
+        <file src="Output\Build\*.png" target="Content" />
+        <file src="LICENSE.md" target="Content" />
+    </files>
+</package>

@@ -1,0 +1,46 @@
+version: "{build}"
+
+install:
+  ps: |
+      choco install imagemagick
+      $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + `
+        ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+
+before_build:
+  ps: |
+      $env:BUILD_VERSION = (cat VERSION)
+
+build_script:
+  ps: |
+      ./build
+
+test: off
+
+artifacts:
+  - path: 'Output\Package\*.nupkg'
+    name: NuGetPackage
+
+  - path: 'Output\Package\*.zip'
+    name: ZipPackage
+
+deploy:
+  - provider: GitHub
+    release: v$(BUILD_VERSION)
+    auth_token:
+      secure: EmsGaC6JRUeanKOhuSCl3ka+kK0czrAG7LHBaYONuUWfV/rIARRFkwoSKZiZHWTe
+    artifact: ZipPackage,NuGetPackage
+    draft: true
+    prerelease: false
+    on:
+      branch: master
+      appveyor_repo_tag: true
+
+  - provider: NuGet
+    server: https://www.myget.org/F/apokee/
+    api_key:
+      secure: xFWoKy0KYFtgED3MwVuk5a3ADwBStIV5j+ApOJCmxC6z++5o3OTBKA+u9YuJRDYb
+    skip_symbols: true
+    artifact: NuGetPackage
+    on:
+      branch: master
+      appveyor_repo_tag: true
