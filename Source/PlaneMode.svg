@@ -16,6 +16,8 @@
    inkscape:version="0.91pre2 r13516"
    viewBox="0 0 1978 1024"
    sodipodi:docname="PlaneMode.svg">
+  <title
+     id="title4166">Plane Mode</title>
   <defs
      id="defs4">
     <marker
@@ -69,7 +71,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.0520728"
-     inkscape:cx="989"
+     inkscape:cx="826.93897"
      inkscape:cy="512"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -87,8 +89,29 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title>Plane Mode</dc:title>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by/3.0/" />
+        <dc:date>2014-01-05</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Dwayne Bent</dc:title>
+          </cc:Agent>
+        </dc:creator>
       </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by/3.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Notice" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Attribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
     </rdf:RDF>
   </metadata>
   <g
