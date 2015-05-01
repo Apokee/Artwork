@@ -4,11 +4,11 @@ using YamlDotNet.Serialization;
 
 public T GetBuildConfiguration<T>() where T : new()
 {
-    var workingDirectorySegments = GetContext().Environment.WorkingDirectory.Segments;
+    var workingDirectorySegments = Context.Environment.WorkingDirectory.Segments;
     var workingDirectoryName = workingDirectorySegments[workingDirectorySegments.Length - 1];
 
     var configFile = (new [] { "build.yml", String.Format("../{0}.build.yml", workingDirectoryName) })
-        .FirstOrDefault(File.Exists);
+        .FirstOrDefault(System.IO.File.Exists);
 
     if (configFile == null)
     {
@@ -20,7 +20,7 @@ public T GetBuildConfiguration<T>() where T : new()
 
 public string GetSolution()
 {
-    var solutions = Directory.GetFiles(GetContext().Environment.WorkingDirectory.FullPath, "*.sln");
+    var solutions = System.IO.Directory.GetFiles(Context.Environment.WorkingDirectory.FullPath, "*.sln");
 
     if (solutions.Length == 1)
     {
@@ -58,7 +58,7 @@ public string Which(string executable)
     {
         var testPath = System.IO.Path.Combine(path, executable);
 
-        if (File.Exists(testPath))
+        if (System.IO.File.Exists(testPath))
         {
             return testPath;
         }
@@ -67,7 +67,7 @@ public string Which(string executable)
         {
             var testPathExt = System.IO.Path.Combine(path, executable) + pathExt;
 
-            if (File.Exists(testPathExt))
+            if (System.IO.File.Exists(testPathExt))
             {
                 return testPathExt;
             }
@@ -79,5 +79,5 @@ public string Which(string executable)
 
 public Version GetVersion()
 {
-    return new Version(File.ReadAllText("VERSION").Trim());
+    return new Version(System.IO.File.ReadAllText("VERSION").Trim());
 }
