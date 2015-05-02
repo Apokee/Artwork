@@ -2,7 +2,7 @@ version: "{build}"
 
 install:
   ps: |
-      choco install imagemagick
+      choco install imagemagick -y
       $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + `
         ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 
