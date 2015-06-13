@@ -1,4 +1,6 @@
-## v0.1.2-alpha
+## v0.2.0-alpha
+##### New
+  - Added Hot Spot
 
 ## v0.1.1
 ##### Change
