@@ -26,11 +26,23 @@ conversions:
     level_colors: "white,"
     resize: 38x38
 
+  - input: HotSpot.svg
+    output: hotspot-white-38x38.png
+    background: none
+    level_colors: "white,"
+    resize: 38x38
+
   - input: Ketchup.svg
     output: ketchup-white-38x38.png
     background: none
     level_colors: "white,"
     resize: 38x38
+
+  - input: PlaneMode.svg
+    output: planemode-white-black-1978x1024.png
+    background: white
+    level_colors: "white,black"
+    resize: 1978x1024
 
   - input: Rocket.svg
     output: rocket-white-38x38.png

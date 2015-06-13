@@ -1,18 +1,46 @@
+os: Visual Studio 2015 RC
 version: "{build}"
 
 install:
   ps: |
-      choco install imagemagick
+      choco install imagemagick -y
       $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + `
         ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 
 before_build:
   ps: |
-      $env:BUILD_VERSION = (cat VERSION)
+      $isMasterBranch = $env:APPVEYOR_REPO_BRANCH -eq "master"
+      $isTagged = $env:APPVEYOR_REPO_TAG -eq "true"
+      $env:BUILD_RELEASE = $isMasterBranch -and $isReleaseConfiguration -and $isTagged
+
+      if ($env:BUILD_RELEASE -eq "True") {
+        Add-AppveyorMessage "Building RELEASE version"
+      } else {
+        Add-AppveyorMessage "Building NON-RELEASE version"
+      }
 
 build_script:
   ps: |
-      ./build
+      if ($env:BUILD_RELEASE -eq "True") {
+        ./build -release=true
+      } else {
+        ./build
+      }
+      
+after_build:
+  ps: |
+      $env:BUILD_VERSION = (cat Output/VERSION)
+      $env:BUILD_PRELEASE = (cat Output/PRELEASE)
+      $env:BUILD_CHANGELOG = (cat Output/CHANGELOG)
+
+      $versionMessage = "Version: $env:BUILD_VERSION"
+
+      if ($env:BUILD_PRELEASE -eq "true") {
+        $versionMessage += " (PRELEASE)"
+      }
+
+      Add-AppveyorMessage "$versionMessage"
+      Add-AppveyorMessage "Changes:`n$env:BUILD_CHANGELOG"
 
 test: off
 
@@ -26,14 +54,14 @@ artifacts:
 deploy:
   - provider: GitHub
     release: v$(BUILD_VERSION)
+    description: $(BUILD_CHANGELOG)
     auth_token:
       secure: EmsGaC6JRUeanKOhuSCl3ka+kK0czrAG7LHBaYONuUWfV/rIARRFkwoSKZiZHWTe
     artifact: ZipPackage,NuGetPackage
-    draft: true
-    prerelease: false
+    draft: false
+    prerelease: $(BUILD_PRELEASE)
     on:
-      branch: master
-      appveyor_repo_tag: true
+      build_release: True
 
   - provider: NuGet
     server: https://www.myget.org/F/apokee/
@@ -42,5 +70,4 @@ deploy:
     skip_symbols: true
     artifact: NuGetPackage
     on:
-      branch: master
-      appveyor_repo_tag: true
+      build_release: True

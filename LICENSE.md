@@ -6,6 +6,8 @@ following licenses.
 - `Source/Apokee.svg` by [Dwayne Bent][dbb] is licensed under [CC BY 4.0][cc-by-4.0]
 - `Source/Connection.svg` by [Dwayne Bent][dbb] is licensed under [CC BY 4.0][cc-by-4.0]
 - `Source/Ketchup.svg` by [Dwayne Bent][dbb] is licensed under [CC BY 4.0][cc-by-4.0]
+- `Source/PlaneMode.svg` by [Dwayne Bent][dbb] is licensed under [CC BY 4.0][cc-by-4.0] and is derived from
+  `Source/Airplane.svg` and `Source/Rocket.svg`.
 - [`Source/Rocket.svg`](http://www.flaticon.com/free-icon/rocket_48254) by [Icons8](http://www.icons8.com) (with
   modifications) is licensed under [CC BY 3.0][cc-by-3.0]
 
