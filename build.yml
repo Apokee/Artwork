@@ -26,6 +26,12 @@ conversions:
     level_colors: "white,"
     resize: 38x38
 
+  - input: HotSpot.svg
+    output: hotspot-white-38x38.png
+    background: none
+    level_colors: "white,"
+    resize: 38x38
+
   - input: Ketchup.svg
     output: ketchup-white-38x38.png
     background: none
