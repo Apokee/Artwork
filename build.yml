@@ -27,6 +27,12 @@ conversions:
     resize: 38x38
 
   - input: HotSpot.svg
+    output: hotspot-white-24x24.png
+    background: none
+    level_colors: "white,"
+    resize: 24x24
+
+  - input: HotSpot.svg
     output: hotspot-white-38x38.png
     background: none
     level_colors: "white,"
