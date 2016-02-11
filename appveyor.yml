@@ -1,4 +1,3 @@
-os: Visual Studio 2015 RC
 version: "{build}"
 
 install:
@@ -26,12 +25,12 @@ build_script:
       } else {
         ./build
       }
-      
+
 after_build:
   ps: |
       $env:BUILD_VERSION = (cat Output/VERSION)
       $env:BUILD_PRELEASE = (cat Output/PRELEASE)
-      $env:BUILD_CHANGELOG = (cat Output/CHANGELOG)
+      $env:BUILD_CHANGELOG = [System.String]::Join("\n", (cat Output/CHANGELOG))
 
       $versionMessage = "Version: $env:BUILD_VERSION"
 

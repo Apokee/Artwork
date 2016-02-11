@@ -1,3 +1,7 @@
+## v0.3.0
+##### New
+  - Added 24x24 resize of Hot Spot
+
 ## v0.2.0
 ##### New
   - Added Hot Spot
