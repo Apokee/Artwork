@@ -12,7 +12,7 @@ Param (
 $UseExperimental	= $true
 $RootDir            = "$PSScriptRoot"
 $PackagesConfigFile = "$RootDir/packages.config"
-$PackagesDir        = "$RootDir/Library/NuGet"
+$PackagesDir        = "$RootDir/.build/lib/nuget"
 $CakeVersionXPath   = "//package[@id='Cake'][1]/@version"
 $CakeVersion        = (Select-Xml -Xml ([xml](Get-Content $PackagesConfigFile)) -XPath $CakeVersionXPath).Node.Value
 $CakeExe            = "$PackagesDir/Cake.$CakeVersion/Cake.exe"
