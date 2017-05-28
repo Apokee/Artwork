@@ -58,21 +58,19 @@ public void Convert(string inputFile, string outputFile,
     var arguments = new StringBuilder();
 
     if (background != null)
-    {
         arguments.AppendFormat(" -background {0}", background);
-    }
 
-    if (levelColors != null)
-    {
-        arguments.AppendFormat(" +level-colors {0}", levelColors);
-    }
+    arguments.AppendFormat(" {0}", inputFile);
 
     if (resize != null)
-    {
         arguments.AppendFormat(" -resize {0}", resize);
-    }
 
-    arguments.AppendFormat(" {0} {1}", inputFile, outputFile);
+    if (levelColors != null)
+        arguments.AppendFormat(" -channel RGB +level-colors {0}", levelColors);
+
+    arguments.AppendFormat(" {0}", outputFile);
+
+    Console.WriteLine(arguments.ToString());
 
     var exitCode = StartProcess(Which("magick"), new ProcessSettings { Arguments = arguments.ToString() });
 
