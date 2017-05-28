@@ -74,7 +74,7 @@ public void Convert(string inputFile, string outputFile,
 
     arguments.AppendFormat(" {0} {1}", inputFile, outputFile);
 
-    var exitCode = StartProcess(Which("convert"), new ProcessSettings { Arguments = arguments.ToString() });
+    var exitCode = StartProcess(Which("magick"), new ProcessSettings { Arguments = arguments.ToString() });
 
     if (exitCode != 0)
     {
