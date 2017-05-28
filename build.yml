@@ -1,4 +1,4 @@
-input_dir: "Source"
+input_dir: "src"
 output_dir: "Output/Build"
 
 conversions:
