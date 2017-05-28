@@ -1,5 +1,5 @@
-input_dir: "Source"
-output_dir: "Output/Build"
+input_dir: "src"
+output_dir: ".build/out/build"
 
 conversions:
   - input: Airplane.svg

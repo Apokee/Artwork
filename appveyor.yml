@@ -21,16 +21,16 @@ before_build:
 build_script:
   ps: |
       if ($env:BUILD_RELEASE -eq "True") {
-        ./build -release=true
+        ./build --release=true
       } else {
         ./build
       }
 
 after_build:
   ps: |
-      $env:BUILD_VERSION = (cat Output/VERSION)
-      $env:BUILD_PRELEASE = (cat Output/PRELEASE)
-      $env:BUILD_CHANGELOG = [System.String]::Join("\n", (cat Output/CHANGELOG))
+      $env:BUILD_VERSION = (cat .build/out/VERSION)
+      $env:BUILD_PRELEASE = (cat .build/out/PRELEASE)
+      $env:BUILD_CHANGELOG = [System.String]::Join("\n", (cat .build/out/CHANGELOG))
 
       $versionMessage = "Version: $env:BUILD_VERSION"
 
@@ -44,10 +44,10 @@ after_build:
 test: off
 
 artifacts:
-  - path: 'Output\Package\*.nupkg'
+  - path: '.build\out\package\*.nupkg'
     name: NuGetPackage
 
-  - path: 'Output\Package\*.zip'
+  - path: '.build\out\package\*.zip'
     name: ZipPackage
 
 deploy:

@@ -4,31 +4,31 @@ using YamlDotNet.Serialization;
 
 public sealed class BuildConfig
 {
-    [YamlAlias("input_dir")]
+    [YamlMember(Alias = "input_dir")]
     public string InputDir { get; set; }
 
-    [YamlAlias("output_dir")]
+    [YamlMember(Alias = "output_dir")]
     public string OutputDir { get; set; }
 
-    [YamlAlias("conversions")]
+    [YamlMember(Alias = "conversions")]
     public ConvertConfig[] Conversions { get; set; }
 }
 
 public sealed class ConvertConfig
 {
-    [YamlAlias("input")]
+    [YamlMember(Alias = "input")]
     public string Input { get; set; }
 
-    [YamlAlias("output")]
+    [YamlMember(Alias = "output")]
     public string Output { get; set; }
 
-    [YamlAlias("background")]
+    [YamlMember(Alias = "background")]
     public string Background { get; set; }
 
-    [YamlAlias("level_colors")]
+    [YamlMember(Alias = "level_colors")]
     public string LevelColors { get; set; }
 
-    [YamlAlias("resize")]
+    [YamlMember(Alias = "resize")]
     public string Resize { get; set; }
 }
 
@@ -37,6 +37,9 @@ public void Convert(BuildConfig buildConfig)
     foreach (var conversion in buildConfig.Conversions)
     {
         Console.WriteLine("Converting {0} -> {1}", conversion.Input, conversion.Output);
+
+        if (!DirectoryExists(buildConfig.OutputDir))
+            CreateDirectory(buildConfig.OutputDir);
 
         Convert(
             System.IO.Path.Combine(buildConfig.InputDir, conversion.Input),
@@ -55,23 +58,19 @@ public void Convert(string inputFile, string outputFile,
     var arguments = new StringBuilder();
 
     if (background != null)
-    {
         arguments.AppendFormat(" -background {0}", background);
-    }
 
-    if (levelColors != null)
-    {
-        arguments.AppendFormat(" +level-colors {0}", levelColors);
-    }
+    arguments.AppendFormat(" {0}", inputFile);
 
     if (resize != null)
-    {
         arguments.AppendFormat(" -resize {0}", resize);
-    }
 
-    arguments.AppendFormat(" {0} {1}", inputFile, outputFile);
+    if (levelColors != null)
+        arguments.AppendFormat(" -channel RGB +level-colors {0}", levelColors);
 
-    var exitCode = StartProcess(Which("convert"), new ProcessSettings { Arguments = arguments.ToString() });
+    arguments.AppendFormat(" {0}", outputFile);
+
+    var exitCode = StartProcess(Which("magick"), new ProcessSettings { Arguments = arguments.ToString() });
 
     if (exitCode != 0)
     {
