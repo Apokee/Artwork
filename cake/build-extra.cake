@@ -70,8 +70,6 @@ public void Convert(string inputFile, string outputFile,
 
     arguments.AppendFormat(" {0}", outputFile);
 
-    Console.WriteLine(arguments.ToString());
-
     var exitCode = StartProcess(Which("magick"), new ProcessSettings { Arguments = arguments.ToString() });
 
     if (exitCode != 0)

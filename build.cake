@@ -1,36 +1,54 @@
 #l "cake/build-extra.cake"
 
-var target = Argument<string>("target", "Package");
-var release = Argument<bool>("release", false);
+public sealed class Globals
+{
+    public string Target { get; set; }
+    public bool Release { get; set; }
+    public BuildConfig BuildConfig { get; set; }
+    public string OutputDir { get; set; }
+    public string OutputBuildDir { get; set; }
+    public string OutputPackageDir { get; set; }
+}
 
-var buildConfig = GetBuildConfiguration<BuildConfig>();
+private Globals GetGlobals()
+{
+    var globals = new Globals();
+    globals.Target = Argument<string>("target", "Package");
+    globals.Release = Argument<bool>("release", false);
+    globals.BuildConfig = GetBuildConfiguration<BuildConfig>();
+    globals.OutputDir = System.IO.Path.Combine(".build/out");
+    globals.OutputBuildDir = System.IO.Path.Combine(globals.OutputDir, "build");
+    globals.OutputPackageDir = System.IO.Path.Combine(globals.OutputDir, "package");
 
-var outputDir = System.IO.Path.Combine(".build/out");
-var outputBuildDir = System.IO.Path.Combine(outputDir, "build");
-var outputPackageDir = System.IO.Path.Combine(outputDir, "package");
+    return globals;
+}
 
 Task("CleanBuild")
     .Does(() =>
 {
-    CleanDirectories(new DirectoryPath[] { outputBuildDir });
+    var globals = GetGlobals();
+    CleanDirectories(new DirectoryPath[] { globals.OutputBuildDir });
 });
 
 Task("CleanPackage")
     .Does(() =>
 {
-    CleanDirectories(new DirectoryPath[] { outputPackageDir });
+    var globals = GetGlobals();
+    CleanDirectories(new DirectoryPath[] { globals.OutputPackageDir });
 });
 
 Task("BuildVersionInfo")
     .Does(() =>
 {
+    var globals = GetGlobals();
+
     SemVer buildVersion;
 
     var changeLog = GetChangeLog();
     var version = changeLog.LatestVersion;
     var rev = GetGitRevision(useShort: true);
 
-    if (rev != null && !release)
+    if (rev != null && !globals.Release)
     {
         if (version.Build == null)
         {
@@ -46,9 +64,9 @@ Task("BuildVersionInfo")
         buildVersion = version;
     }
 
-    System.IO.File.WriteAllText(System.IO.Path.Combine(outputDir, "VERSION"), buildVersion);
-    System.IO.File.WriteAllText(System.IO.Path.Combine(outputDir, "PRELEASE"), (buildVersion.Pre != null).ToString().ToLower());
-    System.IO.File.WriteAllText(System.IO.Path.Combine(outputDir, "CHANGELOG"), changeLog.LatestChanges);
+    System.IO.File.WriteAllText(System.IO.Path.Combine(globals.OutputDir, "VERSION"), buildVersion);
+    System.IO.File.WriteAllText(System.IO.Path.Combine(globals.OutputDir, "PRELEASE"), (buildVersion.Pre != null).ToString().ToLower());
+    System.IO.File.WriteAllText(System.IO.Path.Combine(globals.OutputDir, "CHANGELOG"), changeLog.LatestChanges);
 });
 
 Task("Build")
@@ -56,8 +74,10 @@ Task("Build")
     .IsDependentOn("BuildVersionInfo")
     .Does(() =>
 {
-    Convert(buildConfig);
-    CopyFile("LICENSE.md", System.IO.Path.Combine(outputBuildDir, "LICENSE.md"));
+    var globals = GetGlobals();
+
+    Convert(globals.BuildConfig);
+    CopyFile("LICENSE.md", System.IO.Path.Combine(globals.OutputBuildDir, "LICENSE.md"));
 });
 
 Task("NugetPackage")
@@ -65,9 +85,11 @@ Task("NugetPackage")
     .IsDependentOn("Build")
     .Does(() =>
 {
+    var globals = GetGlobals();
+
     NuGetPack("Apokee.Artwork.nuspec", new NuGetPackSettings {
         Version = GetVersion().ToString(),
-        OutputDirectory = outputPackageDir,
+        OutputDirectory = globals.OutputPackageDir,
     });
 });
 
@@ -76,9 +98,11 @@ Task("ZipPackage")
     .IsDependentOn("Build")
     .Does(() =>
 {
-    var packageFile = System.IO.Path.Combine(outputPackageDir, String.Format("Apokee.Artwork-{0}.zip", GetBuildVersion()));
+    var globals = GetGlobals();
 
-    Zip(outputBuildDir, packageFile);
+    var packageFile = System.IO.Path.Combine(globals.OutputPackageDir, String.Format("Apokee.Artwork-{0}.zip", GetBuildVersion()));
+
+    Zip(globals.OutputBuildDir, packageFile);
 });
 
 Task("Package")
@@ -88,9 +112,10 @@ Task("Package")
 {
 });
 
-RunTarget(target);
+RunTarget(GetGlobals().Target);
 
 private SemVer GetBuildVersion()
 {
-    return new SemVer(System.IO.File.ReadAllText(System.IO.Path.Combine(outputDir, "VERSION")));
+    var globals = GetGlobals();
+    return new SemVer(System.IO.File.ReadAllText(System.IO.Path.Combine(globals.OutputDir, "VERSION")));
 }
