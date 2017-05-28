@@ -1,4 +1,4 @@
-#l "build-extra.cake"
+#l "cake/build-extra.cake"
 
 var target = Argument<string>("target", "Package");
 var release = Argument<bool>("release", false);
