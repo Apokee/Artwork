@@ -5,9 +5,9 @@ var release = Argument<bool>("release", false);
 
 var buildConfig = GetBuildConfiguration<BuildConfig>();
 
-var outputDir = System.IO.Path.Combine("Output");
-var outputBuildDir = System.IO.Path.Combine(outputDir, "Build");
-var outputPackageDir = System.IO.Path.Combine(outputDir, "Package");
+var outputDir = System.IO.Path.Combine(".build/out");
+var outputBuildDir = System.IO.Path.Combine(outputDir, "build");
+var outputPackageDir = System.IO.Path.Combine(outputDir, "package");
 
 Task("CleanBuild")
     .Does(() =>
@@ -46,9 +46,9 @@ Task("BuildVersionInfo")
         buildVersion = version;
     }
 
-    System.IO.File.WriteAllText("Output/VERSION", buildVersion);
-    System.IO.File.WriteAllText("Output/PRELEASE", (buildVersion.Pre != null).ToString().ToLower());
-    System.IO.File.WriteAllText("Output/CHANGELOG", changeLog.LatestChanges);
+    System.IO.File.WriteAllText(System.IO.Path.Combine(outputDir, "VERSION"), buildVersion);
+    System.IO.File.WriteAllText(System.IO.Path.Combine(outputDir, "PRELEASE"), (buildVersion.Pre != null).ToString().ToLower());
+    System.IO.File.WriteAllText(System.IO.Path.Combine(outputDir, "CHANGELOG"), changeLog.LatestChanges);
 });
 
 Task("Build")
@@ -92,5 +92,5 @@ RunTarget(target);
 
 private SemVer GetBuildVersion()
 {
-    return new SemVer(System.IO.File.ReadAllText("Output/VERSION"));
+    return new SemVer(System.IO.File.ReadAllText(System.IO.Path.Combine(outputDir, "VERSION")));
 }

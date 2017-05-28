@@ -38,6 +38,9 @@ public void Convert(BuildConfig buildConfig)
     {
         Console.WriteLine("Converting {0} -> {1}", conversion.Input, conversion.Output);
 
+        if (!DirectoryExists(buildConfig.OutputDir))
+            CreateDirectory(buildConfig.OutputDir);
+
         Convert(
             System.IO.Path.Combine(buildConfig.InputDir, conversion.Input),
             System.IO.Path.Combine(buildConfig.OutputDir, conversion.Output),
