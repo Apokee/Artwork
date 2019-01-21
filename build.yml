@@ -8,6 +8,12 @@ conversions:
     level_colors: "white,"
     resize: 38x38
 
+  - input: Airplane.svg
+    output: airplane-white-48x48.png
+    background: none
+    level_colors: "white,"
+    resize: 48x48
+
   - input: Apokee.svg
     output: apokee-gray-460x460.png
     background: none
@@ -38,6 +44,12 @@ conversions:
     level_colors: "white,"
     resize: 38x38
 
+  - input: HotSpot.svg
+    output: hotspot-white-48x48.png
+    background: none
+    level_colors: "white,"
+    resize: 48x48
+
   - input: Ketchup.svg
     output: ketchup-white-38x38.png
     background: none
@@ -55,3 +67,9 @@ conversions:
     background: none
     level_colors: "white,"
     resize: 38x38
+
+  - input: Rocket.svg
+    output: rocket-white-48x48.png
+    background: none
+    level_colors: "white,"
+    resize: 48x48
